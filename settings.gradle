@@ -22,3 +22,4 @@ include 'yoga-sms:yoga-sms-yunpian'
 include 'yoga-sms:yoga-sms-aliyun'
 
 include 'yoga-push:yoga-push-jiguang'
+include 'yoga-emp:emp-business'

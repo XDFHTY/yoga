@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emphealth.business.customer.mapper.CustomerMapper">
+
+    <select id="list" resultType="com.emphealth.business.customer.model.Customer">
+        SELECT hc.*, count(ho.id) record_count
+        FROM emp_customer hc
+        <if test="tenantId != null">
+            join emp_customer_tenant oct on oct.customer_id = hc.id and oct.tenant_id = #{tenantId}
+        </if>
+        LEFT JOIN emp_health_record ho ON ho.customer_id = hc.id
+        <where>
+            <if test="name != null and name != ''">
+                and (hc.username like "%"#{name}"%"
+                or hc.nickname like "%"#{name}"%"
+                or hc.realname like "%"#{name}"%"
+                or hc.pid like "%"#{name}"%"
+                or hc.spell like "%"#{name}"%"
+                or hc.capital like "%"#{name}"%")
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and (hc.username like "%"#{keyword}"%"
+                    or hc.nickname like "%"#{keyword}"%"
+                    or hc.mobile like "%"#{keyword}"%"
+                    or hc.email like "%"#{keyword}"%")
+            </if>
+        </where>
+        GROUP BY hc.id
+        order by hc.id desc
+    </select>
+    <select id="get" resultType="com.emphealth.business.customer.model.Customer">
+        select hc.*, count(ho.id) record_count
+        from emp_customer hc
+        left join emp_health_record ho on ho.customer_id = hc.id
+        where hc.id = #{id}
+        GROUP BY hc.id
+    </select>
+</mapper>

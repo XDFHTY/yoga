@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emphealth.business.equipment.mapper.EquipmentMapper">
+
+    <select id="list" resultType="com.emphealth.business.equipment.model.Equipment">
+        select ee.*
+        from emp_equipment ee
+        where ee.tenant_id = #{tenantId}
+        <if test="keyword != null and keyword != ''">
+            and (ee.imei like "%"#{keyword}"%" or ee.type like "%"#{keyword}"%" or ee.remark like "%"#{keyword}"%")
+        </if>
+        order by ee.tenant_id desc
+    </select>
+</mapper>

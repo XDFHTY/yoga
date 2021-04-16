@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emphealth.business.measure.mapper.HealthRecordMapper">
+
+    <select id="list" resultType="com.emphealth.business.measure.model.HealthRecord">
+        select ehr.*, IFNULL(ec.realname, ec.nickname) customer, IFNULL(ou.nickname, ou.username) operator, st.name tenant
+        from emp_health_record ehr
+        left join emp_customer ec on ec.id = ehr.customer_id
+        left join operator_user ou on ou.id = ehr.operator_id
+        left join system_tenant st on st.id = ehr.tenant_id
+        <where>
+            <if test="tenantId != null and tenantId != 0">
+                and ehr.tenant_id = #{tenantId}
+            </if>
+            <if test="customerId != null">
+                and ehr.customer_id = #{customerId}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and (ec.realname like "%"#{keyword}"%" or ec.nickname like "%"#{keyword}"%" or ou.nickname like "%"#{keyword}"%")
+            </if>
+            <if test="beginDate != null">
+                and ehr.begin_time >= #{beginDate}
+            </if>
+            <if test="endDate != null">
+                and ehr.end_time &lt;= #{endDate}
+            </if>
+        </where>
+        ORDER BY ehr.id desc
+    </select>
+    <select id="get" resultType="com.emphealth.business.measure.model.HealthRecord">
+        select ehr.*, IFNULL(ec.realname, ec.nickname) customer, IFNULL(ou.nickname, ou.username) operator, st.name tenant
+        from emp_health_record ehr
+        left join emp_customer ec on ec.id = ehr.customer_id
+        left join operator_user ou on ou.id = ehr.operator_id
+        left join system_tenant st on st.id = ehr.tenant_id
+        where ehr.id = #{id}
+    </select>
+    <select id="listTread" resultType="com.emphealth.business.measure.bo.TreadItem">
+        select ehr.begin_time time, ehr.${norm} record
+        from emp_health_record ehr
+        where customer_id = #{customerId}
+        <if test="beginDate != null">
+            and ehr.begin_time &lt;= #{beginDate}
+        </if>
+        <if test="endDate != null">
+            and ehr.begin_time >= #{endDate}
+        </if>
+        and ehr.${norm} is not null
+        order by ehr.begin_time
+    </select>
+</mapper>

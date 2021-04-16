@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menus>
+    <menu sort="49" icon="icon-qq" name="体检业务" url="">
+        <module code="emphealth_customer" sort="1" icon="" name="健管用户" url="/admin/emphealth/customer">
+            <permissions code="emphealth_customer.edit" sort="1" icon="" name="管理" url=""/>
+            <permissions code="emphealth_customer.detail" sort="1" icon="" name="详情" url=""/>
+        </module>
+        <module code="emphealth_equipment" sort="2" icon="" name="检测设备" url="/admin/emphealth/equipment">
+            <permissions code="emphealth_equipment.edit" sort="1" icon="" name="管理" url=""/>
+        </module>
+        <module code="emphealth_report" sort="3" icon="" name="体检记录" url="/admin/emphealth/measure">
+            <permissions code="emphealth_report.detail" sort="1" icon="" name="详情" url=""/>
+        </module>
+    </menu>
+</menus>

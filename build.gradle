@@ -23,8 +23,9 @@ allprojects {
 		enabled = false
 	}
 
-	distZip.classifier = 'shadow'
-	distTar.classifier = 'shadow'
+	//禁止打包
+//	distZip.classifier = 'shadow'
+//	distTar.classifier = 'shadow'
 }
 
 subprojects {
@@ -39,7 +40,7 @@ subprojects {
 		enabled = true
 	}
 	bootJar {
-		enabled = false
+		enabled = true //false无法打包
 	}
 
     sourceCompatibility = 1.8
