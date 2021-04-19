@@ -58,7 +58,7 @@ public class QRCodeController extends BaseController {
             response.setContentType("image/png");
             QRCode qrCode = QRCode.from(dto.getCode())
                     .withErrorCorrection(ErrorCorrectionLevel.Q)
-                    .withColor((int)dto.getColor(), 0)
+                    .withColor((int)dto.getColor(), 0xFFFFFFFF)
                     .withSize(dto.getWidth(), dto.getHeight())
                     .to(ImageType.PNG);
             ByteArrayOutputStream baos = qrCode.stream();
